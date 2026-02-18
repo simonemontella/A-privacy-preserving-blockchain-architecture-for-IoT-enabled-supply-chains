@@ -1,6 +1,6 @@
 # A privacy-preserving blockchain architecture for IoT-enabled supply chains
 
-Official repository of my personal work of MSc thesis in Computer Engineering at Federico II (unina).
+> A MSc thesis work in Computer Engineering focusing on blockchain and iot enabled supply chains, with an high attention on privacy preservation
 
 ## Objective
 
@@ -36,9 +36,16 @@ Sensitive data to protect both from consumers and from other consortium particip
 - temperature data and locations,
 - secret business processes
 
-### Solutions
+## Data Model
 
-Zero-Knowledge Proofs and pseudo-anonymization will be used to protect sensitive data
+We need to abstract a generic supply chain, for instance we'll take a generic cold chain identified by 4 steps:
+
+1. CREATION
+2. PROCESSING
+3. TRANSPORT
+4. RECEIVING
+
+The main object to model will be the "LOT", a generic item - or group of items - involved in the supply chain.
 
 ## IoT
 
