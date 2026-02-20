@@ -1,0 +1,23 @@
+{
+    "name": "iot-gateway",
+    "version": "1.0.0",
+    "description": "IoT to Hyperledger Fabric Gateway",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts",
+        "test:mqtt": "ts-node test-mqtt-publisher.ts"
+    },
+    "dependencies": {
+        "@hyperledger/fabric-gateway": "^1.2.2",
+        "mqtt": "^5.0.3",
+        "sqlite3": "^5.1.6",
+        "dotenv": "^16.3.1"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.2",
+        "ts-node": "^10.9.1",
+        "@types/node": "^20.10.4"
+    }
+}
