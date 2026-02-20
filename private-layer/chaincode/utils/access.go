@@ -7,10 +7,9 @@ import (
 )
 
 const (
-	Org1MSP = "Org1-OriginMSP"
-	Org2MSP = "Org2-ProducingMSP"
-	Org3MSP = "Org3-TransportMSP"
-	Org4MSP = "Org4-ReceivingMSP"
+	Org1MSP = "Org1MSP"
+	Org2MSP = "Org2MSP"
+	Org3MSP = "Org3MSP"
 )
 
 func CanCreateLot(msp string) error {
@@ -25,13 +24,13 @@ func CanAppendEvent(msp string, eventType models.EventType) error {
 	case models.EVENT_ORIGIN:
 		return mustBe(msp, Org1MSP)
 	case models.EVENT_PROCESSING, models.EVENT_PROCESSED:
-		return mustBe(msp, Org2MSP)
+		return mustBe(msp, Org1MSP)
 	case models.EVENT_TRANSPORTING, models.EVENT_TRANSPORTED:
-		return mustBe(msp, Org3MSP)
+		return mustBe(msp, Org2MSP)
 	case models.EVENT_COMPLETION:
-		return mustBe(msp, Org4MSP)
+		return mustBe(msp, Org3MSP)
 	case models.EVENT_INSPECTION:
-		return nil // tutti
+		return nil
 	default:
 		return fmt.Errorf("unknown event type: %s", eventType)
 	}
