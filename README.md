@@ -1,56 +1,27 @@
-# A privacy-preserving blockchain architecture for IoT-enabled supply chains
+# Privacy-Preserving Blockchain Architecture for IoT-Enabled Supply Chains
 
-> A MSc thesis work in Computer Engineering focusing on blockchain and iot enabled supply chains, with an high attention on privacy preservation
+## Overview
 
-## Objective
+Modern supply chains demand robust tools to certify product origin, quality, and compliance throughout their lifecycle. While the integration of Internet of Things (IoT) and Blockchain technologies enables granular, real-time data collection and immutable recording, it introduces a natural paradox between **public transparency** and **industrial confidentiality**. End-to-end visibility exposes sensitive operational data—such as field measurements, partner identities, and production volumes—to unauthorized actors or competitors. Furthermore, high-frequency IoT data streams severely limit scalability, making direct on-chain recording unsustainable.
 
-The main objective is to implement a privacy-preserving blockchain architecture for IoT-enabled supply chains which:
+This repository contains the prototype implementation of a **hybrid, multi-layer, privacy-preserving blockchain architecture** designed to solve these challenges.
 
-- guarantees transparency for consumers (end users),
-- preserves business and operative privacy,
-- is verifiable, predisposed to future process mining / anomaly detection implementations,
-- allows analytics measures of some metrics like privacy/transparency trade-off, overhead, performances.
+The system natively interacts with generic IoT data collection infrastructures, combining three distinct layers:
 
-## Core components
+1. **Encrypted Off-chain Storage**: Privately archives raw IoT sensor payloads.
+2. **Private Ledger (Hyperledger Fabric)**: A permissioned registry shared among consortium partners to record activities executed along the supply chain.
+3. **Public Ledger (Ethereum)**: A permissionless blockchain enabling the public verifiability of lot compliance.
 
-1. Blockchain:
-   - Private Consortium Blockchain
-     Suppliers, Manufacturers, Producers, Distributors, Resellers can access writing/reading product/supply chain data based on their role
-   - Public Consumer Blockchain
-     Consumers can verify their product through a QR-Code/Barcode
-2. Anchoring Service
-   A middleware between private and public blockchains to anchor relative product/lots data
-3. Ingestion Service
-   A middleware between consortium participants and private blockchain.
+The interaction between these layers is orchestrated by specialized intermediary services. These services summarize the entire history of each lot into a cryptographic footprint using **Merkle Trees** and generate **Zero-Knowledge Proofs (ZK-SNARKs)**. This proves mathematical compliance with regulatory or contractual constraints without ever exposing the underlying sensitive data.
 
-## Tech Stack
+## Project Structure
 
-TODO
+The repository is modularly structured as follows:
 
-## Privacy
-
-Sensitive data to protect both from consumers and from other consortium participants who don't need those information:
-
-- logistics data,
-- partner, supplier information,
-- temperature data and locations,
-- secret business processes
-
-## Data Model
-
-We need to abstract a generic supply chain, for instance we'll take a generic cold chain identified by 4 steps:
-
-1. CREATION
-2. PROCESSING
-3. TRANSPORT
-4. RECEIVING
-
-The main object to model will be the "LOT", a generic item - or group of items - involved in the supply chain.
-
-## IoT
-
-TODO
-
-## Future works
-
-1. process mining / anomaly detection
+- **`private-layer/`**: Contains the Hyperledger Fabric network configuration and the smart contracts (chaincode) deployed on the private ledger.
+- **`public-layer/`**: Contains the Ethereum smart contracts (Solidity) for public anchoring and ZKP verification.
+- **`bridges/`**: Contains the intermediary Node.js services connecting the layers.
+  - **`ingestion-service/`**: Ingests IoT telemetry data (via HTTP/MQTT), encrypts the raw payloads for off-chain storage, and logs the event references to the Fabric ledger.
+  - **`anchoring-service/`**: Aggregates lot events into Merkle Trees, generates Zero-Knowledge proofs of their validity, and anchors the roots and proofs to Ethereum.
+- **`client-app/`** & **`dashboard/`**: Front-end user interfaces for interacting with the system and verifying lots.
+- **`experiments/`**: Testing scripts, benchmark utilities, and experiment results evaluating system throughput, latency, and gas consumption.

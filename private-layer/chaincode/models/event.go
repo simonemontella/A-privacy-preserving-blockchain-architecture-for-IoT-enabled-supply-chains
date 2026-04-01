@@ -34,7 +34,7 @@ type LotEvent struct {
 	PayloadRef string `json:"payloadRef"`
 	Commitment string `json:"commitment"` // sha256 hex (64)
 
-	PrevEventHash string `json:"prevEventHash,omitempty"`
+	PrevEventHash string `json:"prevEventHash"`
 	EventHash     string `json:"eventHash"`
 }
 
